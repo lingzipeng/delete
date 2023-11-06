@@ -1,16 +1,33 @@
 package com.itemheima.controller;
 
+import com.itemheima.pojo.Article;
+import com.itemheima.pojo.PageBean;
 import com.itemheima.pojo.Result;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.itemheima.service.ArticleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/article")
 public class ArticleController {
-    @GetMapping("/list")
-    public Result<String> List(){
-        return Result.success("所有的文章数据...");
+
+    @Autowired
+    private ArticleService articleService;
+    @PostMapping
+    public Result add(@RequestBody Article article){
+        articleService.add(article);
+        return Result.success();
+    }
+
+    @GetMapping
+    public Result<PageBean<Article>> list(
+            Integer pageNum,
+            Integer pageSize,
+            @RequestParam(required = false) Integer categoryId,
+            @RequestParam(required = false) String state
+    ){
+        PageBean<Article> pd = articleService.list(pageNum,pageSize,categoryId,state);
+        return Result.success(pd);
     }
 }
