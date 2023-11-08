@@ -8,4 +8,10 @@ public interface ArticleService {
     void add(Article article);
     //查询文章
     PageBean<Article> list(Integer pageNum, Integer pageSize, Integer categoryId, String state);
+    //按id查询文章
+    Article findById(Integer id);
+    //更新文章
+    void update(Article article);
+    //删除文章
+    void delete(Integer id);
 }
